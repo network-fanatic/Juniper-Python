@@ -19,7 +19,7 @@ junos_username = input("Junos OS username: ")
 if str(junos_username) == "root": 
     sys.exit(
         'Unfortunately the user root is currently not supported - Please run the tool again and choose another user.')
-junos_password = getpass("Junos OS or SSH key password: ")
+junos_password = getpass("Junos OS password: ")
 
 def update_progress(dev, report):
     # log the progress of the installing process
