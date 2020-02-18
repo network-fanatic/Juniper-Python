@@ -14,6 +14,14 @@ srx_local = "/var/tmp/"
 #logfile location
 logfile = "/home/thor/junos_packages/install.log"
 
+hostname = input("Device IP address: ")
+junos_username = input("Junos OS username: ")
+junos_password = getpass("Junos OS or SSH key password: ")
+
+if str(hostname) == "root": 
+    sys.exit(
+        'Unfortunately the user root is currently not supported - Please run the tool again and choose another user.')
+
 def update_progress(dev, report):
     # log the progress of the installing process
     logging.info(report)
@@ -26,13 +34,10 @@ def main():
     logging.getLogger().addHandler(logging.StreamHandler())
     logging.info('Information logged in {0}'.format(logfile))
 
-    # hostname = input("Device hostname: ")
-    # junos_username = input("Junos OS username: ")
-    # junos_password = getpass("Junos OS or SSH key password: ")
-
-    # dev = Device(host=hostname, user=junos_username, passwd=junos_password)
+    dev = Device(host=hostname, user=junos_username, passwd=junos_password)
     
-    dev = Device(host="192.168.100.1", user="admin", passwd="juniper123")
+    # hard set parameters. 
+    # dev = Device(host="192.168.100.1", user="admin", passwd="juniper123")
     dev.open()
     type = (dev.facts["version"])
   
@@ -56,7 +61,7 @@ def main():
 
         if ok == True:
             print("Software installation complete. Rebooting!")
-            logging.info("Software installation complete. Rebooting")
+            logging.info("Software installation complete. Rebooting!")
             rsp = sw.reboot()
             logging.info("Upgrade pending reboot cycle, please be patient.")
             logging.info(rsp)
