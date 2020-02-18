@@ -3,7 +3,6 @@ import os, sys, logging
 
 from jnpr.junos import Device
 from jnpr.junos.utils.sw import SW
-from jnpr.junos.utils.scp import SCP
 from jnpr.junos.exception import ConnectError
 from getpass import getpass
 
@@ -12,7 +11,7 @@ package_srx = "/home/thor/junos_packages/junos-srxsme-18.4R3.3.tgz"
 #srx file destination
 srx_local = "/var/tmp/"
 #logfile location
-logfile = "/home/thor/junos_packages/install.log"
+# logfile = "/home/thor/junos_packages/install.log"
 
 hostname = input("Device IP address: ")
 junos_username = input("Junos OS username: ")
@@ -27,17 +26,18 @@ def update_progress(dev, report):
 
 def main():
     # initialize logging
-    logging.basicConfig(filename=logfile, level=logging.INFO,
-                        format='%(asctime)s:%(name)s: %(message)s')
-    logging.getLogger().name = Device
-    logging.getLogger().addHandler(logging.StreamHandler())
-    logging.info('Information logged in {0}'.format(logfile))
-
+    logging.basicConfig(filename="results.log", level=logging.DEBUG,
+                        format='%(asctime)s:%(levelname)s: %(message)s')
+  
     dev = Device(host=hostname, user=junos_username, passwd=junos_password)
     
     # hard set parameters. 
     # dev = Device(host="192.168.100.1", user="admin", passwd="juniper123")
-    dev.open()
+    try:
+        dev.open()
+    except ConnectError as err:
+        sys.exit("Unfortunately the target device is unreachable. Check connection parameters.")
+
     type = (dev.facts["version"])
   
     sw = SW(dev)
