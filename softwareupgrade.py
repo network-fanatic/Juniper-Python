@@ -16,11 +16,10 @@ logfile = "/home/thor/junos_packages/install.log"
 
 hostname = input("Device IP address: ")
 junos_username = input("Junos OS username: ")
-junos_password = getpass("Junos OS or SSH key password: ")
-
-if str(hostname) == "root": 
+if str(junos_username) == "root": 
     sys.exit(
         'Unfortunately the user root is currently not supported - Please run the tool again and choose another user.')
+junos_password = getpass("Junos OS or SSH key password: ")
 
 def update_progress(dev, report):
     # log the progress of the installing process
