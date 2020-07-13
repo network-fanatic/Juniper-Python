@@ -7,7 +7,7 @@ from jnpr.junos.exception import ConnectError
 from getpass import getpass
 
 #define the location of the local package
-package_srx = "/home/thor/junos_packages/junos-srxsme-18.4R3.3.tgz"
+package_srx = "/home/thor/junos_packages/junos-srxsme-18.4R3-S2.tgz"
 #srx file destination
 srx_local = "/var/tmp/"
 #logfile location
@@ -15,9 +15,9 @@ srx_local = "/var/tmp/"
 
 hostname = input("Device IP address: ")
 junos_username = input("Junos OS username: ")
-if str(junos_username) == "root": 
-    sys.exit(
-        'Unfortunately the user root is currently not supported - Please run the tool again and choose another user.')
+#if str(junos_username) == "root": 
+    #sys.exit(
+        #'Unfortunately the user root is currently not supported - Please run the tool again and choose another user.')
 junos_password = getpass("Junos OS password: ")
 
 def update_progress(dev, report):
@@ -42,11 +42,11 @@ def main():
   
     sw = SW(dev)
 
-    if type == "18.4R3.3":
+    if type == "18.4R3-S2":
         logging.info("Already on latest firmware.")
         print("Looks like your device is already on the latest firmware!.")
 
-    elif type != "18.4R3.3":
+    elif type != "18.4R3-S2":
         print("Not on latest Junos version. Copying/installing latest Junos image to device. Please be patient.")
         try:
             logging.info('Starting the software upgrade process: {0}'.format(package_srx))
